@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kxtv=d%#y^xvc-i35a+&16d77j05*!!@bl1-l0b9x1rqfllf11'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'https://e-commerce-26mg.onrender.com/'
@@ -78,10 +78,15 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'user_management_xn9a',  # Database name
+        'USER': 'root',                   # Database user
+        'PASSWORD': 'GFiRzrWmzwKQN7S9nBbMOeeol2Hv3tqW',  # Database password
+        'HOST': 'dpg-colvss21hbls7398563g-a',            # Database host
+        'PORT': '5432',                  # Database port (PostgreSQL default is 5432)
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
