@@ -1,0 +1,30 @@
+{% extends "main.html" %} {% block content %}
+
+<div class="container my-3">
+  {% if q %}
+  <h1>{{q}}</h1>
+  {% else %}
+  <h1>Products</h1>
+  {% endif %}
+  <div class="row">
+    <div class="col col-lg-2">
+      <a href="{% url 'products-page' %}" class="nav-link">All</a>
+      {% for c in categories %}
+      <div>
+        <a class="nav-link" href="{% url 'products-page' %}?q={{c.name}}">
+          {{c.name}}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col">
+      <div class="card-group row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 py-3">
+        {% for product in products %}
+        {% include "base/product_card.html" %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

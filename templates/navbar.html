@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary px-3">
+  <a class="navbar-brand" href="#">MyMarket</a>
+  <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId"
+    aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'home' %}" aria-current="page">Home <span
+            class="visually-hidden">(current)</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'products-page' %}" aria-current="page">Products <span
+            class="visually-hidden">()</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'cart-page' %}" aria-current="page">Cart <span
+            class="visually-hidden">()</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'profile-page' %}" aria-current="page">Profile <span
+            class="visually-hidden">()</span></a>
+      </li>
+    </ul>
+    {% if request.user.username %}
+    <div class="px-5 text-white h4">Welcome {{request.user.username}}</div>
+    {% endif %}
+
+
+    <form class="d-flex my-2 my-lg-0" method="GET" action="{% url 'search-page' %}">
+      <input class="form-control me-sm-2" type="text" placeholder="Search" name="q" />
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
+
+    <div class="px-3 text-white">
+      {% if request.user.is_authenticated %}
+      <a class="nav-link text-white h5" href="{% url 'logout' %}">Logout </a>
+      {% else %}
+      <a class="nav-link text-white h5" href="{% url 'login' %}"> Login </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

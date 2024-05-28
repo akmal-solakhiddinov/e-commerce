@@ -1,0 +1,91 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Shopping Cart</h1>
+  <div class="row">
+    <div class="col-md-8">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cart in carts %}
+          <tr>
+            <td>{{ cart.product.name }}</td>
+            <td>
+              <form method="POST" action="{% url 'update-quantity' cart.id %}">
+                {% csrf_token %}
+                <input type="number" class="form-control" value="{{ cart.quantity }}" min="1" name="quantity"
+                  data-item-id="{{ cart.id }}" />
+              </form>
+            </td>
+            <td>${{ cart.product.price }}</td>
+            <td>${{ cart.get_total_price }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm remove-cart" data-cart-id="{{ cart.id }}">
+                Remove
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center">Your cart is empty.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <h4>Total: ${{ total_price }}</h4>
+      <button class="btn btn-success btn-lg btn-block checkout-btn">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+  <a download="checkout.pdf" class="link-file" style="display: none;">Download Checkout PDF</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $(".remove-cart").on("click", function () {
+      const id = $(this).data("cart-id");
+      $.post(
+        '{% url "delete-from-cart" %}',
+        {
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          id: id
+        },
+        function (res) {
+          if (res.success) {
+            location.reload();
+          }
+        }
+      );
+    });
+
+    $(".checkout-btn").on('click', function () {
+      $.post('{% url "checkout-page" %}', {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      }, function (res) {
+        if (res.pdf_data) {
+          const pdfBase64 = res.pdf_data;
+          const link = $('.link-file');
+          link.attr('href', 'data:application/pdf;base64,' + pdfBase64);
+          link.show();
+        } else {
+          alert('Error: ' + res.error);
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock content %}
