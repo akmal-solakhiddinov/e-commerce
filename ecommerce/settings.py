@@ -24,7 +24,9 @@ SECRET_KEY = 'django-insecure-kxtv=d%#y^xvc-i35a+&16d77j05*!!@bl1-l0b9x1rqfllf11
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://e-commerce-26mg.onrender.com/'
+]
 
 # Application definition
 
