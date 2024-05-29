@@ -11,22 +11,24 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os.path
 from pathlib import Path
+from decouple import config, Csv
+import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kxtv=d%#y^xvc-i35a+&16d77j05*!!@bl1-l0b9x1rqfllf11'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = [
-    'e-commerce-26mg.onrender.com'
-]
+DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT', cast=int),
+    }
+}
+# ... (rest of the settings)
 
 
 # Application definition
@@ -76,17 +78,6 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'user_management_xn9a',  # Database name
-        'USER': 'root',                   # Database user
-        'PASSWORD': 'GFiRzrWmzwKQN7S9nBbMOeeol2Hv3tqW',  # Database password
-        'HOST': 'dpg-colvss21hbls7398563g-a',            # Database host
-        'PORT': '5432',                  # Database port (PostgreSQL default is 5432)
-    }
-}
 
 
 # Password validation
