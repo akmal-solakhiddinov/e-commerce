@@ -17,7 +17,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False
 SECRET_KEY = 'django-insecure-=c3bf=ew@l(+1y9*+xp^h$@zdoh3uaz7trs-0x09q64-4m8pjk'
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -46,13 +46,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
