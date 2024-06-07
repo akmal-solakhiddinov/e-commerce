@@ -15,7 +15,7 @@ from decouple import config, Csv
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'django-insecure-=c3bf=ew@l(+1y9*+xp^h$@zdoh3uaz7trs-0x09q64-4m8pjk'
 ALLOWED_HOSTS = []
 # DATABASES = {
