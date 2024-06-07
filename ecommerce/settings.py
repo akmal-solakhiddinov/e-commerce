@@ -28,12 +28,9 @@ ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': dj_database_url.config(
-        # Replace this value wizhth your local database's connection string.
-        default="postgres://default:fQCziBGaX49o@ep-wispy-unit-a1tzmiaf.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require",
-        conn_max_age=600
+        default=config('DATABASE_URL')
     )
 }
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -116,19 +113,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
-if not DEBUG:    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
