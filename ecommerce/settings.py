@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value wizhth your local database's connection string.
-        default='postgres://root:GFiRzrWmzwKQN7S9nBbMOeeol2Hv3tqW@dpg-colvss21hbls7398563g-a/user_management_xn9a',
+        default="postgres://default:fQCziBGaX49o@ep-wispy-unit-a1tzmiaf.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require",
         conn_max_age=600
     )
 }

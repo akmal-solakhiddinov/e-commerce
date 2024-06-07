@@ -1,8 +1,8 @@
 databases:
-  - name: dpg-colvss21hbls7398563g-a
+  - name: verceldb
     plan: free
-    databaseName: user_management_xn9a
-    user: root
+    databaseName: verceldb
+    user: default
 
 services:
   - type: web
@@ -10,13 +10,13 @@ services:
     name: ecommerce
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn ecommerce.asgi:application -k uvicorn.workers.UvicornWorker"  
-      envVars:
-      - key: 'postgres://root:GFiRzrWmzwKQN7S9nBbMOeeol2Hv3tqW@dpg-colvss21hbls7398563g-a/user_management_xn9a'
+    startCommand: "python -m gunicorn ecommerce.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
         fromDatabase:
-          name: user_management_xn9a
+          name: verceldb
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: WEB_CONCURRENCY
-        value: 4
+        value: "4"
