@@ -2,7 +2,7 @@
 __pycache__/
 *.sqlite3
 /venv/
-/staticfiles/
-/media/
+# /staticfiles/
+# /media/
 .env
 .idea
