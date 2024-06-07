@@ -11,7 +11,4 @@ python manage.py collectstatic --no-input
 # Apply any outstanding database migrations
 python manage.py migrate
 
-# Create superuser with auto-completion
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$superuser', '$akmalsalokhiddinov03@gmail.com', '$qwQW12!@')" | python manage.py shell
-
-# Replace $1, $2, $3 with your desired username, email, and password respectively
+python create_superuser.py
