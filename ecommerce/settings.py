@@ -15,21 +15,24 @@ from decouple import config, Csv
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DEBUG = config('DEBUG', default=False, cast=bool)
-SECRET_KEY = config('SECRET_KEY')
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),
-        'PORT': config('DATABASE_PORT', cast=int),
-    }
-}
+DEBUG = True
+SECRET_KEY = 'django-insecure-=c3bf=ew@l(+1y9*+xp^h$@zdoh3uaz7trs-0x09q64-4m8pjk'
+ALLOWED_HOSTS = []
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 # ... (rest of the settings)
 
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value wizhth your local database's connection string.
+        default='postgres://root:GFiRzrWmzwKQN7S9nBbMOeeol2Hv3tqW@dpg-colvss21hbls7398563g-a/user_management_xn9a',
+        conn_max_age=600
+    )
+}
 
 # Application definition
 
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -113,6 +117,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+if not DEBUG:    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')

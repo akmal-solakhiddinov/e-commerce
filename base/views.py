@@ -77,40 +77,31 @@ def create_checkout_pdf(file_path, checkout_details):
 
 
 
-
 def loginPage(request):
-    page = 'login'
-
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        print(email, password, '<---user authentiated')
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            user = None
-
+        user = authenticate(request, email=email, password=password)
         if user is not None:
-            user = authenticate(request, email=email, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.error(request, 'Invalid email or password.')
+            login(request, user)
+            return redirect('home')
         else:
-            messages.error(request, 'User not found.')
+            messages.error(request, 'Invalid email or password.')
 
-    context = {'page': page}
+    context = {'page': 'login'}
     return render(request, 'base/login_register.html', context)
+
+
+
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
-
 
 def registerPage(request):
     form = registerationForm()
@@ -119,10 +110,13 @@ def registerPage(request):
         form = registerationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            print(user, '<----username')
             user.username = user.username.lower()
             user.save()
             login(request, user)
             return redirect('home')
+        else:
+            messages.error(request, 'Registration failed. Please correct the errors below.')
 
     return render(request, 'base/login_register.html', {'form': form})
 
